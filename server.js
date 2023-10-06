@@ -83,7 +83,7 @@ app.get("/",(req,res)=>{
 connectDB()
 app.use(express.json());
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: "https://hash-tag-web-dev-pf.vercel.app",
   credentials: true
 }))
 
