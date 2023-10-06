@@ -12,8 +12,11 @@ import blogRouter from "./routes/blogs.js";
 import jobApplicationRouter from "./routes/job-application.js";
 import session from 'express-session';
 import { v4 as uuidv4 } from 'uuid';
-const app = express();
+import mongoose from 'mongoose'; // Import mongoose for database connection
+import connectMongo from 'connect-mongo'; // Import connect-mongo
+import MongoStore from "connect-mongo";
 
+const app = express();
 
 // Authentication middleware to protect routes
 const authenticateJWT = (req, res, next) => {
@@ -89,16 +92,19 @@ app.use(cookieParser());
 app.use("/api", blogRouter)
 app.use("/api", jobApplicationRouter)
 // Configure and use express-session
-app.use(
-  session({
-    genid: () => uuidv4(), // Use uuidv4() here
-    secret: "Khuram123",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false },
-  })
-);
-
+// app.use(
+//   session({
+//     genid: () => uuidv4(),
+//     secret: "Khuram123",
+//     resave: false,
+//     saveUninitialized: true,
+//     store: new MongoStore({
+//       mongooseConnection: connectDB, // Use the established Mongoose connection
+//       ttl: 60 * 60 * 24, // Session expiration time (optional)
+//     }),
+//     cookie: { secure: false },
+//   })
+// );
 // Session middleware
 const sessionMiddleware = (req, res, next) => {
   if (!req.session.user) {
