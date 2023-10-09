@@ -10,6 +10,8 @@ import jwt from "jsonwebtoken";
 import { default as connectDB } from "./database/db.js";
 import blogRouter from "./routes/blogs.js";
 import jobApplicationRouter from "./routes/job-application.js";
+import contactRoute from "./routes/contact-us.js";
+import newsletterRoute from "./routes/newsletter.js";
 import session from 'express-session';
 import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose'; // Import mongoose for database connection
@@ -91,6 +93,8 @@ app.use(cors({
 app.use(cookieParser());
 app.use("/api", blogRouter)
 app.use("/api", jobApplicationRouter)
+app.use("/api", contactRoute)
+app.use("/api", newsletterRoute)
 // Configure and use express-session
 // app.use(
 //   session({
