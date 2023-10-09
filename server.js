@@ -17,6 +17,7 @@ import { v4 as uuidv4 } from 'uuid';
 import mongoose from 'mongoose'; // Import mongoose for database connection
 import connectMongo from 'connect-mongo'; // Import connect-mongo
 import MongoStore from "connect-mongo";
+import dotenv from 'dotenv'
 
 const app = express();
 
@@ -82,6 +83,9 @@ app.get("/",(req,res)=>{
 })
 
 // Middleware
+dotenv.config({
+  path:"./config.env"
+})
 connectDB()
 app.use(express.json());
 app.use(cors({
@@ -110,17 +114,17 @@ app.use("/api", newsletterRoute)
 //   })
 // );
 // Session middleware
-const sessionMiddleware = (req, res, next) => {
-  if (!req.session.user) {
-    req.user = null;
-  } else {
-    req.user = req.session.user;
-  }
-  next();
-};
+// const sessionMiddleware = (req, res, next) => {
+//   if (!req.session.user) {
+//     req.user = null;
+//   } else {
+//     req.user = req.session.user;
+//   }
+//   next();
+// };
 
 // Apply the session middleware to all routes
-app.use(sessionMiddleware);
+// app.use(sessionMiddleware);
 
 // Get current user
 app.get("/api/getCurrentUser", authenticateJWT, (req, res) => {

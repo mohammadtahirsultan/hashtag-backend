@@ -1,26 +1,30 @@
 import Blog from '../models/blogs.js'
 import apiFeatures from '../utils/blogSearchAndPagination.js'
+import sendEmailNotificationsToUsers from '../utils/nodemailer.js';
 
 // Implementation of blogs
 export const addBlog = async (req, res) => {
     const { title, category, shortDescription, content, author } = req.body;
 
     try {
-        if (!req.file) {
-            return res.status(400).json({ error: "No image file provided" });
-        }
-        const image = req.file.filename;
+        // if (!req.file) {
+        //     return res.status(400).json({ message: "No image file provided" });
+        // }
+        // const image = req.file.filename;
         const newBlog = new Blog({
             title,
             author,
             category,
             shortDescription,
             content,
-            image,
+            // image,
         });
 
         // Save the new blog to the database
         await newBlog.save();
+
+        // Send Gmail notifications to users
+        await sendEmailNotificationsToUsers();
 
         return res.status(201).json({ message: "Blog created successfully" });
     } catch (error) {
