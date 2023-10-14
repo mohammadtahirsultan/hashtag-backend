@@ -2,7 +2,10 @@ import mongoose from "mongoose";
 
 const blogSchema = new mongoose.Schema({
   title: String,
-  author: String,
+  author: {
+    type:String,
+    default:"Mohammad Ali"
+  },
   category: String,
   content: String,
   shortDescription: String,

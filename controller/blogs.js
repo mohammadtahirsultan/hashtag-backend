@@ -192,23 +192,23 @@ export const updateBlog = async (req, res) => {
 
         const { title, category, content } = req.body;
 
-        let project = await Blog.findById(req.params.id)
+        let blog = await Blog.findById(req.params.id)
 
-        if (!project) {
+        if (!blog) {
             return res.status(404).json({
                 success: false,
-                message: "Project Not Found"
+                message: "Blog Not Found"
             })
         }
 
 
         let cloudinaryRes;
         if (req.body.image) {
-            if (project.image && project.image.public_id) {
+            if (blog.image && blog.image.public_id) {
 
-                let projectImageId = project.image.public_id
+                let blogImageId = blog.image.public_id
 
-                await cloudinary.v2.uploader.destroy(projectImageId)
+                await cloudinary.v2.uploader.destroy(blogImageId)
 
 
                 cloudinaryRes = await cloudinary.v2.uploader.upload(req.body.image,
@@ -219,16 +219,16 @@ export const updateBlog = async (req, res) => {
                 );
 
 
-                project.image = {
+                blog.image = {
                     public_id: cloudinaryRes.public_id,
                     url: cloudinaryRes.secure_url
                 }
-                await project.save()
+                await blog.save()
             }
         }
 
 
-        project = await Blog.findByIdAndUpdate(req.params.id, {
+        blog = await Blog.findByIdAndUpdate(req.params.id, {
             title, category, content
         })
 

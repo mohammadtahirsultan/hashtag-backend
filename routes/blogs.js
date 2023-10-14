@@ -9,6 +9,6 @@ router.post("/addblogs", addBlog)
 router.get("/blogs", getAllBlogs)
 router.delete("/blogs/:id", deleteBlog)
 router.get("/blogs/:id", getSingleBlog)
-router.put("/:id", upload.single("image"), updateBlog)
+router.put("/blog/:id", updateBlog)
 
 export default router

@@ -111,31 +111,27 @@ app.use("/api", jobApplicationRouter)
 app.use("/api", contactRoute)
 app.use("/api", newsletterRoute)
 // Configure and use express-session
-app.use(
-  session({
-    genid: () => uuidv4(),
-    secret: "Khuram123",
-    resave: false,
-    saveUninitialized: true,
-    // store: new MongoStore({
-    //   mongooseConnection: connectDB, // Use the established Mongoose connection
-    //   ttl: 60 * 60 * 24, // Session expiration time (optional)
-    // }),
-    cookie: { secure: false },
-  })
-);
+// app.use(
+//   session({
+//     genid: () => uuidv4(),
+//     secret: "Khuram123",
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { secure: false },
+//   })
+// );
 // Session middleware
-const sessionMiddleware = (req, res, next) => {
-  if (!req.session.user) {
-    req.user = null;
-  } else {
-    req.user = req.session.user;
-  }
-  next();
-};
+// const sessionMiddleware = (req, res, next) => {
+//   if (!req.session.user) {
+//     req.user = null;
+//   } else {
+//     req.user = req.session.user;
+//   }
+//   next();
+// };
 
 // Apply the session middleware to all routes
-app.use(sessionMiddleware);
+// app.use(sessionMiddleware);
 
 // Get current user
 app.get("/api/getCurrentUser", authenticateJWT, (req, res) => {
