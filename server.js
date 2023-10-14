@@ -78,18 +78,18 @@ passport.use(
 
 const port = process.env.PORT || 5000;
 
-app.get("/",(req,res)=>{
+app.get("/", (req, res) => {
   res.send("Hello World")
 })
 
 // Middleware
 dotenv.config({
-  path:"./config.env"
+  path: "./config.env"
 })
 connectDB()
 app.use(express.json());
 app.use(cors({
-  origin: "https://hash-tag-web-dev-pf.vercel.app",
+  origin: ["http://localhost:5173", "https://hashtagwebdev.vercel.app"],
   credentials: true
 }))
 

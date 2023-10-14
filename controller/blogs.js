@@ -46,7 +46,7 @@ export const getAllBlogs = async (req, res) => {
     try {
 
 
-        const resultPerPage = 2;
+        const resultPerPage = 4;
 
         // Count all documents first
         const blogsCount = await Blog.countDocuments();
