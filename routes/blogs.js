@@ -5,7 +5,7 @@ import upload from "../multer/upload.js"
 const router = express.Router()
 
 
-router.post("/addblogs", upload.single("image"), addBlog)
+router.post("/addblogs", addBlog)
 router.get("/blogs", getAllBlogs)
 router.delete("/blogs/:id", deleteBlog)
 router.get("/blogs/:id", getSingleBlog)

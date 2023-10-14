@@ -18,6 +18,8 @@ import mongoose from 'mongoose'; // Import mongoose for database connection
 import connectMongo from 'connect-mongo'; // Import connect-mongo
 import MongoStore from "connect-mongo";
 import dotenv from 'dotenv'
+import cloudinary from 'cloudinary';
+import fileUpload from 'express-fileupload'
 
 const app = express();
 
@@ -86,12 +88,21 @@ app.get("/", (req, res) => {
 dotenv.config({
   path: "./config.env"
 })
+
+cloudinary.config({
+    cloud_name: process.env.CLOUDINARY_NAME,
+    api_key: process.env.CLOUDINARY_API_KEY,
+    api_secret: process.env.CLOUDINARY_API_SECRET
+});
+
 connectDB()
 app.use(express.json());
 app.use(cors({
-  origin: ["http://localhost:5173", "https://hashtagwebdev.vercel.app"],
+  origin: ["http://localhost:3000","http://localhost:5173", "https://hashtagwebdev.vercel.app"],
   credentials: true
 }))
+
+app.use(fileUpload())
 
 // app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 app.use(cookieParser());
@@ -100,31 +111,31 @@ app.use("/api", jobApplicationRouter)
 app.use("/api", contactRoute)
 app.use("/api", newsletterRoute)
 // Configure and use express-session
-// app.use(
-//   session({
-//     genid: () => uuidv4(),
-//     secret: "Khuram123",
-//     resave: false,
-//     saveUninitialized: true,
-//     store: new MongoStore({
-//       mongooseConnection: connectDB, // Use the established Mongoose connection
-//       ttl: 60 * 60 * 24, // Session expiration time (optional)
-//     }),
-//     cookie: { secure: false },
-//   })
-// );
+app.use(
+  session({
+    genid: () => uuidv4(),
+    secret: "Khuram123",
+    resave: false,
+    saveUninitialized: true,
+    // store: new MongoStore({
+    //   mongooseConnection: connectDB, // Use the established Mongoose connection
+    //   ttl: 60 * 60 * 24, // Session expiration time (optional)
+    // }),
+    cookie: { secure: false },
+  })
+);
 // Session middleware
-// const sessionMiddleware = (req, res, next) => {
-//   if (!req.session.user) {
-//     req.user = null;
-//   } else {
-//     req.user = req.session.user;
-//   }
-//   next();
-// };
+const sessionMiddleware = (req, res, next) => {
+  if (!req.session.user) {
+    req.user = null;
+  } else {
+    req.user = req.session.user;
+  }
+  next();
+};
 
 // Apply the session middleware to all routes
-// app.use(sessionMiddleware);
+app.use(sessionMiddleware);
 
 // Get current user
 app.get("/api/getCurrentUser", authenticateJWT, (req, res) => {
