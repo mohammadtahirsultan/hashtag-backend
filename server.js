@@ -98,7 +98,7 @@ cloudinary.config({
 connectDB()
 app.use(express.json());
 app.use(cors({
-  origin: ["http://localhost:3000","http://localhost:5173", "https://hashtagwebdev.vercel.app"],
+  origin: ["https://hashtagweb.dev","http://localhost:3000","http://localhost:5173", "https://hashtagwebdev.vercel.app"],
   credentials: true
 }))
 
